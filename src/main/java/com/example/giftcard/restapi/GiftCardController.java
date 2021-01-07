@@ -5,6 +5,7 @@ import com.example.giftcard.coreapi.command.RedeemCardCmd;
 import com.example.giftcard.coreapi.command.ReimburseCardCmd;
 import com.example.giftcard.coreapi.query.GiftCardSummaryQuery;
 import com.example.giftcard.query.entity.GiftCardSummary;
+import com.example.giftcard.restapi.request.IssueCardRequest;
 import com.example.giftcard.restapi.request.RedeemRequest;
 import com.example.giftcard.restapi.response.IssueCardResponse;
 import com.example.giftcard.restapi.response.RedeemResponse;
@@ -27,9 +28,9 @@ public class GiftCardController {
     private final QueryGateway queryGateway;
 
     @PostMapping("/card")
-    public IssueCardResponse issueCard() throws InterruptedException {
+    public IssueCardResponse issueCard(@RequestBody IssueCardRequest request) throws InterruptedException {
         UUID id = UUID.randomUUID();
-        commandGateway.sendAndWait(new IssueCardCmd(id, 100));
+        commandGateway.sendAndWait(new IssueCardCmd(id, request.getAmount()));
         return new IssueCardResponse(id);
     }
 

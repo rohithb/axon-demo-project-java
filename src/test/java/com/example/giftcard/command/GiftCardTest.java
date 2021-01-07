@@ -1,7 +1,7 @@
 package com.example.giftcard.command;
 
 import com.example.giftcard.coreapi.event.CardIssuedEvent;
-import com.example.giftcard.coreapi.event.CardRedeemEvent;
+import com.example.giftcard.coreapi.event.CardRedeemedEvent;
 import com.example.giftcard.coreapi.command.IssueCardCmd;
 import com.example.giftcard.coreapi.command.RedeemCardCmd;
 import org.axonframework.test.aggregate.AggregateTestFixture;
@@ -35,7 +35,7 @@ class GiftCardTest {
     void shouldRedeemGiftCard() {
         fixture.given(new CardIssuedEvent(cardId, 100))
                 .when(new RedeemCardCmd(cardId, txnId,20))
-                .expectEvents(new CardRedeemEvent(cardId, txnId,20));
+                .expectEvents(new CardRedeemedEvent(cardId, txnId,20));
     }
 
     @Test

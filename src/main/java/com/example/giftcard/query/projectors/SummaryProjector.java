@@ -1,7 +1,7 @@
 package com.example.giftcard.query.projectors;
 
 import com.example.giftcard.coreapi.event.CardIssuedEvent;
-import com.example.giftcard.coreapi.event.CardRedeemEvent;
+import com.example.giftcard.coreapi.event.CardRedeemedEvent;
 import com.example.giftcard.coreapi.event.CardReimbursedEvent;
 import com.example.giftcard.coreapi.query.GiftCardSummaryQuery;
 import com.example.giftcard.query.entity.GiftCardSummary;
@@ -28,7 +28,7 @@ public class SummaryProjector {
     }
 
     @EventHandler
-    public void on(CardRedeemEvent event){
+    public void on(CardRedeemedEvent event){
         log.debug("projecting {}", event);
         repo.findById(event.getCardId()).ifPresent(
                 giftCardSummary -> giftCardSummary.setRemainingValue(

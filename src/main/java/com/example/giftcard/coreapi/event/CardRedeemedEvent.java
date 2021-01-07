@@ -5,7 +5,7 @@ import lombok.Value;
 import java.util.UUID;
 
 @Value
-public class CardRedeemEvent {
+public class CardRedeemedEvent {
     UUID cardId;
     UUID transactionId;
     int amount;

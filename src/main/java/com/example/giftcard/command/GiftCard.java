@@ -3,7 +3,7 @@ package com.example.giftcard.command;
 import com.example.giftcard.coreapi.command.IssueCardCmd;
 import com.example.giftcard.coreapi.event.CardIssuedEvent;
 import com.example.giftcard.coreapi.command.RedeemCardCmd;
-import com.example.giftcard.coreapi.event.CardRedeemEvent;
+import com.example.giftcard.coreapi.event.CardRedeemedEvent;
 import com.example.giftcard.coreapi.event.CardReimbursedEvent;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class GiftCard {
         if (transactions.stream().map(GiftCardTransaction::getTransactionId).anyMatch(cmd.getTransactionId()::equals)) {
             throw new IllegalStateException("TransactionId must be unique");
         }
-        AggregateLifecycle.apply(new CardRedeemEvent(cmd.getCardId(), cmd.getTransactionId(),cmd.getAmount()));
+        AggregateLifecycle.apply(new CardRedeemedEvent(cmd.getCardId(), cmd.getTransactionId(),cmd.getAmount()));
     }
 
     @EventSourcingHandler
@@ -57,7 +57,7 @@ public class GiftCard {
     }
 
     @EventSourcingHandler
-    public void on(CardRedeemEvent event){
+    public void on(CardRedeemedEvent event){
         log.debug("applying {}", event);
         remainingValue -= event.getAmount();
         transactions.add(new GiftCardTransaction(event.getTransactionId(), event.getAmount()));
